@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a0a0a;
+  --card: #1a1a1a;
+  --accent: #ff2d55;
+  --neon: #39ff14;
+  --electric: #00f0ff;
+  --text: #f5f5f5;
+  --muted: #888888;
+  --border: #2a2a2a;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--bg);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-kako-accent text-white font-bold py-3 px-6 uppercase tracking-wider
+           transition-all duration-200 hover:shadow-[0_0_20px_rgba(255,45,85,0.5)]
+           active:scale-95;
+  }
+
+  .btn-outline {
+    @apply border-2 border-kako-accent text-kako-accent font-bold py-3 px-6 uppercase tracking-wider
+           transition-all duration-200 hover:bg-kako-accent hover:text-white
+           active:scale-95;
+  }
+
+  .card-product {
+    @apply bg-kako-card border border-kako-border rounded-sm overflow-hidden
+           transition-all duration-300 hover:border-kako-accent hover:shadow-[0_0_15px_rgba(255,45,85,0.2)]
+           group;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 8px rgba(255, 45, 85, 0.6), 0 0 20px rgba(255, 45, 85, 0.3);
+  }
+
+  .neon-border {
+    box-shadow: 0 0 5px var(--accent), inset 0 0 5px rgba(255, 45, 85, 0.1);
+  }
+}
+
+/* Animación de entrada para productos */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Estilos para la calculadora de importaciones integrada */
+#compras-container {
+  --bg: var(--bg);
+  --card: var(--card);
+  --accent: var(--accent);
+}

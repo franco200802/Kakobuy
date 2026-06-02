@@ -37,7 +37,7 @@ export function ProductCard({ product }: ProductCardProps) {
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-kako-muted">
             <div className="w-full h-full bg-gradient-to-br from-kako-dark to-kako-card flex items-center justify-center">
-              <span className="font-display text-4xl opacity-20">KAKO</span>
+              <span className="font-display text-4xl opacity-20">BA REPS</span>
             </div>
           </div>
         )}

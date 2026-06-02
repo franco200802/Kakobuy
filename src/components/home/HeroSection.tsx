@@ -24,10 +24,10 @@ export function HeroSection() {
           </span>
         </div>
         <h1 className="font-display text-7xl md:text-[10rem] font-bold tracking-wider mb-2 leading-none">
-          <span className="text-glow animate-pulse-neon">KAKO</span>
+          <span className="text-glow animate-pulse-neon">BA</span>
         </h1>
         <h2 className="font-display text-2xl md:text-4xl font-bold tracking-wider text-kako-muted mb-2">
-          BUY IMPORTS
+          REPS
         </h2>
         <p className="text-base md:text-lg text-kako-muted max-w-md mx-auto mb-10">
           Las mejores prendas urbanas del mundo, directo a tu puerta. Sin intermediarios.

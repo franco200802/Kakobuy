@@ -68,7 +68,7 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <h1 className="font-display text-2xl font-bold">
-              <span className="text-kako-accent">KAKO</span> Admin
+              <span className="text-kako-accent">BA</span> Reps Admin
             </h1>
             <span className="text-xs bg-kako-accent/20 text-kako-accent px-2 py-0.5 uppercase tracking-wider">
               Dashboard

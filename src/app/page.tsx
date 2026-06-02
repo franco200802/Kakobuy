@@ -60,7 +60,7 @@ export default function HomePage() {
             Seguinos en Instagram para enterarte primero de los drops, descuentos exclusivos y sorteos.
           </p>
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="btn-primary inline-block">
-            @kakobuy.imports
+            @bareps_
           </a>
         </div>
       </section>

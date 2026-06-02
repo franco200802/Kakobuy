@@ -55,7 +55,7 @@ export default function CheckoutPage() {
         `• ${item.product.name} (${item.size}) x${item.quantity} - ${formatPrice(item.product.price * item.quantity)}`
       ).join('\n');
 
-      const msg = `🛒 *Nuevo pedido KakoBuy*\n\n` +
+      const msg = `🛒 *Nuevo pedido BA Reps*\n\n` +
         `👤 *${formData.name}*\n` +
         `📱 ${formData.phone}\n` +
         `📍 ${formData.address}, ${formData.city} (${formData.zip})\n\n` +

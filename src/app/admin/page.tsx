@@ -43,7 +43,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="font-display text-4xl font-bold tracking-wider text-glow">KAKO</h1>
+          <h1 className="font-display text-4xl font-bold tracking-wider text-glow">BA REPS</h1>
           <p className="text-kako-muted text-sm mt-2 uppercase tracking-widest">Admin Panel</p>
         </div>
 

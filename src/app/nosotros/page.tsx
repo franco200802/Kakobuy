@@ -9,7 +9,7 @@ export default function NosotrosPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="font-display text-5xl md:text-6xl font-bold uppercase mb-4">
-            Sobre <span className="text-kako-accent">KakoBuy</span>
+            Sobre <span className="text-kako-accent">BA Reps</span>
           </h1>
           <p className="text-kako-muted max-w-xl mx-auto text-lg">
             Traemos lo mejor del streetwear internacional directo a tu puerta.
@@ -20,7 +20,7 @@ export default function NosotrosPage() {
         <div className="bg-kako-card border border-kako-border rounded-sm p-8 mb-12">
           <h2 className="font-display text-2xl font-bold uppercase mb-4">Nuestra Historia</h2>
           <p className="text-kako-muted leading-relaxed mb-4">
-            KakoBuy nació de la pasión por la moda urbana y la frustración de no encontrar
+            BA Reps nació de la pasión por la moda urbana y la frustración de no encontrar
             piezas auténticas en Argentina. Importamos directamente desde los mejores proveedores
             internacionales, asegurando calidad premium a precios accesibles.
           </p>

@@ -4,7 +4,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 
 export const metadata: Metadata = {
-  title: 'KakoBuy Imports',
+  title: 'BA Reps',
   description: 'Ropa urbana importada. Estilo callejero, calidad premium.',
 };
 
@@ -28,7 +28,7 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid md:grid-cols-3 gap-8 mb-8">
               <div>
-                <p className="font-display text-3xl tracking-wider text-kako-accent text-glow mb-2">KAKO</p>
+                <p className="font-display text-3xl tracking-wider text-kako-accent text-glow mb-2">BA REPS</p>
                 <p className="text-kako-muted text-sm">Streetwear importado de calidad premium. Buenos Aires, Argentina.</p>
               </div>
               <div>
@@ -42,7 +42,7 @@ export default function RootLayout({
               <div>
                 <h4 className="font-display font-bold uppercase text-sm mb-3">Contacto</h4>
                 <div className="flex flex-col gap-2 text-sm text-kako-muted">
-                  <span>📩 @kakobuy.imports</span>
+                  <span>📩 @bareps_</span>
                   <span>💬 WhatsApp disponible</span>
                   <span>📍 Buenos Aires, AR</span>
                 </div>
@@ -50,7 +50,7 @@ export default function RootLayout({
             </div>
             <div className="border-t border-kako-border pt-6 text-center">
               <p className="text-kako-muted text-xs">
-                © {new Date().getFullYear()} KakoBuy Imports. Todos los derechos reservados.
+                © {new Date().getFullYear()} BA Reps. Todos los derechos reservados.
               </p>
             </div>
           </div>

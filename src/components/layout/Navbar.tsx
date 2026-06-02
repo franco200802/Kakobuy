@@ -15,7 +15,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="font-display text-3xl font-bold tracking-wider hover:text-kako-accent transition-colors">
-          KAKO<span className="text-kako-accent">BUY</span>
+          BA <span className="text-kako-accent">REPS</span>
         </Link>
 
         {/* Nav Desktop */}

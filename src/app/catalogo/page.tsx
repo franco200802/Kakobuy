@@ -13,7 +13,7 @@ export default function CatalogoPage() {
       : MOCK_PRODUCTS.filter((p) => p.category === activeCategory);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-4 pt-28 pb-12">
       {/* Header */}
       <div className="mb-12">
         <h1 className="font-display text-5xl md:text-6xl font-bold uppercase">

@@ -11,15 +11,23 @@ import { Calculator, DollarSign, Truck, Percent, Package } from 'lucide-react';
 export function ImportCalculator() {
   const [dolarRate, setDolarRate] = useState(1450);
   const [productCostUSD, setProductCostUSD] = useState(0);
+  const [shippingMode, setShippingMode] = useState<'manual' | 'weight'>('weight');
   const [shippingUSD, setShippingUSD] = useState(0);
+  const [weightKg, setWeightKg] = useState(0.5);
+  const [shippingRatePerKg, setShippingRatePerKg] = useState(12); // USD por kg (promedio agente)
   const [quantity, setQuantity] = useState(1);
   const [taxRate, setTaxRate] = useState(50); // % impuestos/tasas locales
   const [marginPercent, setMarginPercent] = useState(100); // % ganancia deseada
+  const [nationalShippingUSD, setNationalShippingUSD] = useState(0.97); // flete nacional China
 
   // Cálculos
+  const effectiveShippingUSD = shippingMode === 'weight'
+    ? weightKg * shippingRatePerKg * quantity
+    : shippingUSD;
   const productCostARS = productCostUSD * dolarRate;
-  const shippingPerUnit = (shippingUSD * dolarRate) / (quantity || 1);
-  const subtotalPerUnit = productCostARS + shippingPerUnit;
+  const nationalShippingARS = nationalShippingUSD * dolarRate;
+  const shippingPerUnit = (effectiveShippingUSD * dolarRate) / (quantity || 1);
+  const subtotalPerUnit = productCostARS + nationalShippingARS + shippingPerUnit;
   const taxesPerUnit = subtotalPerUnit * (taxRate / 100);
   const totalCostPerUnit = subtotalPerUnit + taxesPerUnit;
   const suggestedPrice = totalCostPerUnit * (1 + marginPercent / 100);
@@ -88,34 +96,94 @@ export function ImportCalculator() {
           </div>
 
           {/* Envío internacional */}
-          <div className="flex gap-4">
-            <div className="flex-1">
-              <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
-                <Truck size={12} className="inline mr-1" />
-                Envío total (USD)
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={shippingUSD || ''}
-                onChange={(e) => setShippingUSD(Number(e.target.value))}
-                className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
-                placeholder="0.00"
-              />
+          <div className="space-y-3">
+            <label className="block text-xs uppercase tracking-wider text-kako-muted">
+              <Truck size={12} className="inline mr-1" />
+              Flete nacional China (USD por unidad)
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              value={nationalShippingUSD || ''}
+              onChange={(e) => setNationalShippingUSD(Number(e.target.value))}
+              className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
+              placeholder="0.97"
+            />
+
+            <div className="flex gap-2 mt-3">
+              <button
+                onClick={() => setShippingMode('weight')}
+                className={`flex-1 py-2 text-xs uppercase font-bold border transition-colors ${shippingMode === 'weight' ? 'border-kako-accent text-kako-accent bg-kako-accent/10' : 'border-kako-border text-kako-muted'}`}
+              >
+                Por Peso (kg)
+              </button>
+              <button
+                onClick={() => setShippingMode('manual')}
+                className={`flex-1 py-2 text-xs uppercase font-bold border transition-colors ${shippingMode === 'manual' ? 'border-kako-accent text-kako-accent bg-kako-accent/10' : 'border-kako-border text-kako-muted'}`}
+              >
+                Manual (USD)
+              </button>
             </div>
-            <div className="flex-1">
-              <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
-                <Package size={12} className="inline mr-1" />
-                Cantidad unidades
-              </label>
-              <input
-                type="number"
-                min="1"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
-              />
-            </div>
+
+            {shippingMode === 'weight' ? (
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
+                    Peso por unidad (kg)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={weightKg || ''}
+                    onChange={(e) => setWeightKg(Number(e.target.value))}
+                    className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
+                    placeholder="0.5"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
+                    Tarifa USD/kg
+                  </label>
+                  <input
+                    type="number"
+                    step="0.5"
+                    value={shippingRatePerKg || ''}
+                    onChange={(e) => setShippingRatePerKg(Number(e.target.value))}
+                    className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
+                    placeholder="12"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
+                  Envío internacional total (USD)
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={shippingUSD || ''}
+                  onChange={(e) => setShippingUSD(Number(e.target.value))}
+                  className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
+                  placeholder="0.00"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Cantidad */}
+          <div>
+            <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
+              <Package size={12} className="inline mr-1" />
+              Cantidad de unidades
+            </label>
+            <input
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
+            />
           </div>
 
           {/* Impuestos */}
@@ -167,7 +235,13 @@ export function ImportCalculator() {
               <span className="font-mono text-sm">{formatARS(productCostARS)}</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-kako-border">
-              <span className="text-sm text-kako-muted">Envío por unidad</span>
+              <span className="text-sm text-kako-muted">Flete nacional China</span>
+              <span className="font-mono text-sm">{formatARS(nationalShippingARS)}</span>
+            </div>
+            <div className="flex justify-between items-center py-2 border-b border-kako-border">
+              <span className="text-sm text-kako-muted">
+                Envío intl. por unidad {shippingMode === 'weight' ? `(${weightKg}kg × $${shippingRatePerKg}/kg)` : ''}
+              </span>
               <span className="font-mono text-sm">{formatARS(shippingPerUnit)}</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-kako-border">

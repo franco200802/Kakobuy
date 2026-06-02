@@ -1,26 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Preparado para Mercado Pago SDK
-// import { MercadoPagoConfig, Preference } from 'mercadopago';
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 export async function POST(request: NextRequest) {
   try {
     const { items, payer } = await request.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json(
-        { error: 'Items requeridos' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Items requeridos' }, { status: 400 });
     }
 
-    // TODO: Descomentar cuando se configure MP_ACCESS_TOKEN
-    /*
-    const client = new MercadoPagoConfig({ 
-      accessToken: process.env.MP_ACCESS_TOKEN! 
-    });
+    const accessToken = process.env.MP_ACCESS_TOKEN;
 
+    if (!accessToken || accessToken === 'placeholder') {
+      // Modo sin MP: solo confirmar pedido
+      return NextResponse.json({
+        mode: 'direct',
+        message: 'Pedido confirmado (pago a coordinar)',
+      });
+    }
+
+    // Modo Mercado Pago activo
+    const client = new MercadoPagoConfig({ accessToken });
     const preference = new Preference(client);
+
+    const siteUrl = process.env.NEXT_PUBLIC_URL || 'https://kakobuy.vercel.app';
+
     const result = await preference.create({
       body: {
         items: items.map((item: any) => ({
@@ -35,26 +39,21 @@ export async function POST(request: NextRequest) {
           email: payer.email,
         },
         back_urls: {
-          success: `${process.env.NEXT_PUBLIC_URL}/checkout/success`,
-          failure: `${process.env.NEXT_PUBLIC_URL}/checkout/failure`,
-          pending: `${process.env.NEXT_PUBLIC_URL}/checkout/pending`,
+          success: `${siteUrl}/checkout/success`,
+          failure: `${siteUrl}/checkout/failure`,
+          pending: `${siteUrl}/checkout/pending`,
         },
         auto_return: 'approved',
       },
     });
 
-    return NextResponse.json({ 
-      preferenceId: result.id,
-      initPoint: result.init_point 
-    });
-    */
-
-    // Respuesta placeholder
     return NextResponse.json({
-      message: 'Mercado Pago integration ready - configure MP_ACCESS_TOKEN',
-      preferenceId: 'placeholder_' + Date.now(),
+      mode: 'mercadopago',
+      preferenceId: result.id,
+      initPoint: result.init_point,
     });
-  } catch {
+  } catch (error: any) {
+    console.error('Payment error:', error);
     return NextResponse.json(
       { error: 'Error al crear preferencia de pago' },
       { status: 500 }

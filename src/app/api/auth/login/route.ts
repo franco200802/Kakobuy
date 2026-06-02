@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-// Credenciales admin - en producción usar Supabase Auth
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@ropakako.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'kako2024admin';
+// Credenciales admin
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'Franco Marotta';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Plata900900';
 
 export async function POST(request: NextRequest) {
   try {

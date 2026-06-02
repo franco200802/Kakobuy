@@ -4,13 +4,14 @@ export interface Product {
   description: string;
   price: number;
   originalPrice?: number;
+  cost?: number; // costo real para admin
   images: string[];
   sizes: string[];
   category: string;
   stock: number;
   featured: boolean;
   slug: string;
-  weight?: number; // peso en gramos
+  weight?: number;
 }
 
 export interface CartItem {

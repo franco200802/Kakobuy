@@ -161,8 +161,9 @@ export default function AdminDashboard() {
                     <th className="text-left px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Producto</th>
                     <th className="text-left px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Categoría</th>
                     <th className="text-left px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Stock</th>
-                    <th className="text-left px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Talles</th>
-                    <th className="text-right px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Precio</th>
+                    <th className="text-right px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Mi Costo</th>
+                    <th className="text-right px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Precio Venta</th>
+                    <th className="text-right px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Ganancia</th>
                     <th className="text-center px-6 py-3 text-xs uppercase tracking-wider text-kako-muted">Acción</th>
                   </tr>
                 </thead>
@@ -182,10 +183,8 @@ export default function AdminDashboard() {
                           {product.stock}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="text-xs text-kako-muted">
-                          {product.sizes.join(', ')}
-                        </span>
+                      <td className="px-6 py-4 text-right">
+                        <span className="text-sm text-red-400">{product.cost ? formatPrice(product.cost) : '-'}</span>
                       </td>
                       <td className="px-6 py-4 text-right">
                         {editingId === product.id ? (
@@ -205,6 +204,13 @@ export default function AdminDashboard() {
                             {formatPrice(product.price)}
                           </span>
                         )}
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        {product.cost ? (
+                          <span className="text-sm text-green-400 font-bold">
+                            {formatPrice(product.price - product.cost)}
+                          </span>
+                        ) : '-'}
                       </td>
                       <td className="px-6 py-4 text-center">
                         {editingId === product.id ? (

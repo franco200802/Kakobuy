@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import { useCartStore } from '@/store/cart';
-import { CreditCard, Truck, User } from 'lucide-react';
+import { CreditCard, Truck, User, CheckCircle } from 'lucide-react';
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCartStore();
-  const [step, setStep] = useState<'info' | 'shipping' | 'payment'>('info');
+  const [step, setStep] = useState<'info' | 'shipping' | 'payment' | 'success'>('info');
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,11 +30,74 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí se integraría Mercado Pago
-    // const preference = await fetch('/api/payments/create', { ... });
-    alert('Integración con Mercado Pago pendiente. Orden registrada.');
-    clearCart();
+    setLoading(true);
+
+    try {
+      // Guardar pedido
+      await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer: formData,
+          items: items.map((item) => ({
+            id: item.product.id,
+            name: item.product.name,
+            size: item.size,
+            quantity: item.quantity,
+            price: item.product.price,
+          })),
+          total: getTotalPrice(),
+        }),
+      });
+
+      // Intentar Mercado Pago
+      const payRes = await fetch('/api/payments/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            id: item.product.id,
+            name: `${item.product.name} (${item.size})`,
+            quantity: item.quantity,
+            price: item.product.price,
+          })),
+          payer: { name: formData.name, email: formData.email },
+        }),
+      });
+
+      const payData = await payRes.json();
+
+      if (payData.mode === 'mercadopago' && payData.initPoint) {
+        clearCart();
+        window.location.href = payData.initPoint;
+        return;
+      }
+
+      // Sin MP: mostrar confirmación
+      clearCart();
+      setStep('success');
+    } catch {
+      alert('Error al procesar el pedido. Intentá de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (step === 'success') {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-20 text-center">
+        <CheckCircle size={64} className="mx-auto text-green-400 mb-6" />
+        <h1 className="font-display text-4xl font-bold mb-4">¡Pedido Confirmado!</h1>
+        <p className="text-kako-muted mb-2">
+          Gracias <span className="text-kako-white font-bold">{formData.name}</span>, tu pedido fue registrado.
+        </p>
+        <p className="text-kako-muted mb-8">
+          Te contactamos por WhatsApp al <span className="text-kako-white">{formData.phone}</span> para coordinar el pago y la entrega.
+        </p>
+        <a href="/catalogo" className="btn-primary">Seguir comprando</a>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -168,18 +232,23 @@ export default function CheckoutPage() {
 
             {step === 'payment' && (
               <>
-                <h2 className="font-display text-xl font-bold uppercase mb-4">Método de pago</h2>
-                <div className="bg-kako-black border-2 border-dashed border-kako-border p-8 text-center">
-                  <CreditCard size={48} className="mx-auto text-kako-muted mb-4" />
-                  <p className="text-kako-muted text-sm mb-2">
-                    Integración con Mercado Pago
-                  </p>
-                  <p className="text-xs text-kako-muted">
-                    El botón de pago de MP se renderiza aquí via SDK.
-                  </p>
+                <h2 className="font-display text-xl font-bold uppercase mb-4">Confirmar pedido</h2>
+                <div className="bg-kako-black border border-kako-border p-5 space-y-2 text-sm mb-4">
+                  <p><span className="text-kako-muted">Nombre:</span> {formData.name}</p>
+                  <p><span className="text-kako-muted">WhatsApp:</span> {formData.phone}</p>
+                  <p><span className="text-kako-muted">Email:</span> {formData.email}</p>
+                  <p><span className="text-kako-muted">Envío a:</span> {formData.address}, {formData.city} ({formData.zip})</p>
                 </div>
-                <button type="submit" className="btn-primary w-full mt-4">
-                  Confirmar Pedido
+                <div className="bg-kako-black/50 border border-kako-border p-4 text-center text-sm text-kako-muted">
+                  <CreditCard size={32} className="mx-auto mb-2 text-kako-accent" />
+                  <p>El pago se coordina por WhatsApp o vía Mercado Pago</p>
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="btn-primary w-full mt-4 disabled:opacity-50"
+                >
+                  {loading ? 'Procesando...' : 'Confirmar Pedido'}
                 </button>
               </>
             )}

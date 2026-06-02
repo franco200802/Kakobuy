@@ -4,7 +4,7 @@ import { Navbar } from '@/components/layout/Navbar';
 import { CartDrawer } from '@/components/cart/CartDrawer';
 
 export const metadata: Metadata = {
-  title: 'KAKO | Streetwear Imports',
+  title: 'KakoBuy Imports',
   description: 'Ropa urbana importada. Estilo callejero, calidad premium.',
 };
 

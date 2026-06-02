@@ -32,7 +32,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: '3',
-    name: 'Hoodie Spider Brillante 450GSM',
+    name: 'Hoodie Spider Brillante',
     description: 'Hoodie pesado 450GSM con estampado Spider en relieve con brillo. Felpa gruesa, ideal para invierno.',
     price: 123000,
     originalPrice: 138000,

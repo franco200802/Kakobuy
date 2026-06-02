@@ -66,15 +66,15 @@ export default function AdminLoginPage() {
 
           <div>
             <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
-              Email
+              Usuario
             </label>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
-              placeholder="admin@ropakako.com"
+              placeholder="Tu usuario"
             />
           </div>
 

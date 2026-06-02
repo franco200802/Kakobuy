@@ -55,13 +55,13 @@ export default function CheckoutPage() {
         `• ${item.product.name} (${item.size}) x${item.quantity} - ${formatPrice(item.product.price * item.quantity)}`
       ).join('\n');
 
-      const msg = `🛒 *Nuevo pedido BA Reps*\n\n` +
-        `👤 *${formData.name}*\n` +
-        `📱 ${formData.phone}\n` +
-        `📍 ${formData.address}, ${formData.city} (${formData.zip})\n\n` +
+      const msg = `*--- NUEVO PEDIDO BA REPS ---*\n\n` +
+        `*Nombre:* ${formData.name}\n` +
+        `*Tel:* ${formData.phone}\n` +
+        `*Direccion:* ${formData.address}, ${formData.city} (${formData.zip})\n\n` +
         `*Productos:*\n${itemsList}\n\n` +
-        `💰 *Total: ${formatPrice(getTotalPrice())}*\n\n` +
-        `Quiero confirmar mi pedido 🙏`;
+        `*TOTAL: ${formatPrice(getTotalPrice())}*\n\n` +
+        `Quiero confirmar mi pedido.`;
 
       const waNumber = '5491161242741'; // Tu número de WhatsApp
       const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;

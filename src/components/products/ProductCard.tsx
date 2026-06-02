@@ -28,12 +28,19 @@ export function ProductCard({ product }: ProductCardProps) {
     <div className="card-product group">
       {/* Image Container */}
       <div className="relative aspect-[3/4] bg-kako-dark overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center text-kako-muted">
-          {/* Placeholder si no hay imagen */}
-          <div className="w-full h-full bg-gradient-to-br from-kako-dark to-kako-card flex items-center justify-center">
-            <span className="font-display text-4xl opacity-20">KAKO</span>
+        {product.images[0] ? (
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-kako-muted">
+            <div className="w-full h-full bg-gradient-to-br from-kako-dark to-kako-card flex items-center justify-center">
+              <span className="font-display text-4xl opacity-20">KAKO</span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Discount badge */}
         {product.originalPrice && (

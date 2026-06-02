@@ -11,14 +11,14 @@ import { Calculator, DollarSign, Truck, Percent, Package } from 'lucide-react';
 export function ImportCalculator() {
   const [dolarRate, setDolarRate] = useState(1450);
   const [productCostUSD, setProductCostUSD] = useState(0);
-  const [shippingMode, setShippingMode] = useState<'manual' | 'weight'>('weight');
-  const [shippingUSD, setShippingUSD] = useState(0);
+  const [shippingMode, setShippingMode] = useState<'manual' | 'weight'>('manual');
+  const [shippingUSD, setShippingUSD] = useState(63);
   const [weightKg, setWeightKg] = useState(0.5);
-  const [shippingRatePerKg, setShippingRatePerKg] = useState(12); // USD por kg (promedio agente)
-  const [quantity, setQuantity] = useState(1);
-  const [taxRate, setTaxRate] = useState(50); // % impuestos/tasas locales
-  const [marginPercent, setMarginPercent] = useState(100); // % ganancia deseada
-  const [nationalShippingUSD, setNationalShippingUSD] = useState(0.97); // flete nacional China
+  const [shippingRatePerKg, setShippingRatePerKg] = useState(12);
+  const [quantity, setQuantity] = useState(7); // cantidad de productos en el pedido
+  const [taxFlatARS, setTaxFlatARS] = useState(38000); // impuestos fijos en ARS
+  const [marginPercent, setMarginPercent] = useState(100); // ganancia deseada (doble)
+  const [nationalShippingUSD, setNationalShippingUSD] = useState(0.97);
 
   // Cálculos
   const effectiveShippingUSD = shippingMode === 'weight'
@@ -27,8 +27,8 @@ export function ImportCalculator() {
   const productCostARS = productCostUSD * dolarRate;
   const nationalShippingARS = nationalShippingUSD * dolarRate;
   const shippingPerUnit = (effectiveShippingUSD * dolarRate) / (quantity || 1);
+  const taxesPerUnit = taxFlatARS / (quantity || 1);
   const subtotalPerUnit = productCostARS + nationalShippingARS + shippingPerUnit;
-  const taxesPerUnit = subtotalPerUnit * (taxRate / 100);
   const totalCostPerUnit = subtotalPerUnit + taxesPerUnit;
   const suggestedPrice = totalCostPerUnit * (1 + marginPercent / 100);
   const profitPerUnit = suggestedPrice - totalCostPerUnit;
@@ -190,15 +190,15 @@ export function ImportCalculator() {
           <div>
             <label className="block text-xs uppercase tracking-wider text-kako-muted mb-2">
               <Percent size={12} className="inline mr-1" />
-              Impuestos y tasas locales (%)
+              Impuestos y tasas fijos (ARS total del pedido)
             </label>
             <input
               type="number"
-              value={taxRate}
-              onChange={(e) => setTaxRate(Number(e.target.value))}
+              value={taxFlatARS}
+              onChange={(e) => setTaxFlatARS(Number(e.target.value))}
               className="w-full bg-kako-black border border-kako-border px-4 py-3 text-sm focus:border-kako-accent focus:outline-none transition-colors"
             />
-            <p className="text-xs text-kako-muted mt-1">Incluye IVA, percepción AFIP, tasa correo, etc.</p>
+            <p className="text-xs text-kako-muted mt-1">Se divide entre la cantidad de unidades. Incluye IVA, AFIP, tasa correo, etc.</p>
           </div>
 
           {/* Margen */}
@@ -249,7 +249,7 @@ export function ImportCalculator() {
               <span className="font-mono text-sm">{formatARS(subtotalPerUnit)}</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-kako-border">
-              <span className="text-sm text-kako-muted">Impuestos ({taxRate}%)</span>
+              <span className="text-sm text-kako-muted">Impuestos ({formatARS(taxFlatARS)} ÷ {quantity}u)</span>
               <span className="font-mono text-sm text-red-400">{formatARS(taxesPerUnit)}</span>
             </div>
             <div className="flex justify-between items-center py-3 border-b-2 border-kako-accent">

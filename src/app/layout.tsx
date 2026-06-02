@@ -22,19 +22,37 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-kako-black text-kako-white font-body antialiased">
         <Navbar />
-        <main className="pt-20">{children}</main>
+        <main>{children}</main>
         <CartDrawer />
-        <footer className="border-t border-kako-border mt-20 py-8">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <p className="font-display text-2xl tracking-wider text-kako-accent text-glow">
-              KAKO
-            </p>
-            <p className="text-kako-muted text-sm mt-2">
-              Streetwear importado · Buenos Aires, Argentina
-            </p>
-            <p className="text-kako-muted text-xs mt-4">
-              © {new Date().getFullYear()} KAKO. Todos los derechos reservados.
-            </p>
+        <footer className="border-t border-kako-border mt-20 py-12">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid md:grid-cols-3 gap-8 mb-8">
+              <div>
+                <p className="font-display text-3xl tracking-wider text-kako-accent text-glow mb-2">KAKO</p>
+                <p className="text-kako-muted text-sm">Streetwear importado de calidad premium. Buenos Aires, Argentina.</p>
+              </div>
+              <div>
+                <h4 className="font-display font-bold uppercase text-sm mb-3">Links</h4>
+                <div className="flex flex-col gap-2 text-sm text-kako-muted">
+                  <a href="/catalogo" className="hover:text-kako-accent transition-colors">Catálogo</a>
+                  <a href="/drops" className="hover:text-kako-accent transition-colors">Drops</a>
+                  <a href="/nosotros" className="hover:text-kako-accent transition-colors">Nosotros</a>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-display font-bold uppercase text-sm mb-3">Contacto</h4>
+                <div className="flex flex-col gap-2 text-sm text-kako-muted">
+                  <span>📩 @kakobuy.imports</span>
+                  <span>💬 WhatsApp disponible</span>
+                  <span>📍 Buenos Aires, AR</span>
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-kako-border pt-6 text-center">
+              <p className="text-kako-muted text-xs">
+                © {new Date().getFullYear()} KakoBuy Imports. Todos los derechos reservados.
+              </p>
+            </div>
           </div>
         </footer>
       </body>

@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import Link from 'next/link';
 import { Product } from '@/types';
 import { useCartStore } from '@/store/cart';
 import { ShoppingBag } from 'lucide-react';
@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="card-product group">
+    <Link href={`/producto/${product.slug}`} className="card-product group block">
       {/* Image Container */}
       <div className="relative aspect-[3/4] bg-kako-dark overflow-hidden">
         {product.images[0] ? (
@@ -88,6 +88,6 @@ export function ProductCard({ product }: ProductCardProps) {
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

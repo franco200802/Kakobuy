@@ -80,9 +80,6 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           ))}
         </div>
-        {product.weight && (
-          <p className="text-xs text-kako-muted mt-2">⚖️ {product.weight}g</p>
-        )}
       </div>
     </div>
   );

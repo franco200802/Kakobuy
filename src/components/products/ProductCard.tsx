@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="card-product">
+    <div className="card-product group">
       {/* Image Container */}
       <div className="relative aspect-[3/4] bg-kako-dark overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center text-kako-muted">

@@ -1,6 +1,6 @@
 import { HeroSection } from '@/components/home/HeroSection';
 import { FeaturedProducts } from '@/components/home/FeaturedProducts';
-import { Truck, Shield, RefreshCw, Headphones } from 'lucide-react';
+import { Truck, Shield, Headphones } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -25,7 +25,7 @@ export default function HomePage() {
 
       {/* Benefits section */}
       <section className="max-w-7xl mx-auto px-4 py-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           <div className="text-center p-6 bg-kako-card border border-kako-border rounded-sm hover:border-kako-accent transition-colors">
             <Truck className="mx-auto mb-3 text-kako-accent" size={28} />
             <h4 className="font-display font-bold text-sm uppercase">Envío rápido</h4>
@@ -35,11 +35,6 @@ export default function HomePage() {
             <Shield className="mx-auto mb-3 text-kako-accent" size={28} />
             <h4 className="font-display font-bold text-sm uppercase">Compra segura</h4>
             <p className="text-kako-muted text-xs mt-1">Mercado Pago protegido</p>
-          </div>
-          <div className="text-center p-6 bg-kako-card border border-kako-border rounded-sm hover:border-kako-accent transition-colors">
-            <RefreshCw className="mx-auto mb-3 text-kako-accent" size={28} />
-            <h4 className="font-display font-bold text-sm uppercase">100% Original</h4>
-            <p className="text-kako-muted text-xs mt-1">Productos importados</p>
           </div>
           <div className="text-center p-6 bg-kako-card border border-kako-border rounded-sm hover:border-kako-accent transition-colors">
             <Headphones className="mx-auto mb-3 text-kako-accent" size={28} />

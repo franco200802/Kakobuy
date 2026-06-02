@@ -50,32 +50,27 @@ export default function CheckoutPage() {
         }),
       });
 
-      // Intentar Mercado Pago
-      const payRes = await fetch('/api/payments/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map((item) => ({
-            id: item.product.id,
-            name: `${item.product.name} (${item.size})`,
-            quantity: item.quantity,
-            price: item.product.price,
-          })),
-          payer: { name: formData.name, email: formData.email },
-        }),
-      });
+      // Armar mensaje de WhatsApp con el pedido
+      const itemsList = items.map((item) =>
+        `• ${item.product.name} (${item.size}) x${item.quantity} - ${formatPrice(item.product.price * item.quantity)}`
+      ).join('\n');
 
-      const payData = await payRes.json();
+      const msg = `🛒 *Nuevo pedido KakoBuy*\n\n` +
+        `👤 *${formData.name}*\n` +
+        `📱 ${formData.phone}\n` +
+        `📍 ${formData.address}, ${formData.city} (${formData.zip})\n\n` +
+        `*Productos:*\n${itemsList}\n\n` +
+        `💰 *Total: ${formatPrice(getTotalPrice())}*\n\n` +
+        `Quiero confirmar mi pedido 🙏`;
 
-      if (payData.mode === 'mercadopago' && payData.initPoint) {
-        clearCart();
-        window.location.href = payData.initPoint;
-        return;
-      }
+      const waNumber = '5491112345678'; // Tu número de WhatsApp
+      const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
 
-      // Sin MP: mostrar confirmación
       clearCart();
       setStep('success');
+
+      // Abrir WhatsApp en nueva pestaña
+      window.open(waUrl, '_blank');
     } catch {
       alert('Error al procesar el pedido. Intentá de nuevo.');
     } finally {
@@ -87,12 +82,15 @@ export default function CheckoutPage() {
     return (
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <CheckCircle size={64} className="mx-auto text-green-400 mb-6" />
-        <h1 className="font-display text-4xl font-bold mb-4">¡Pedido Confirmado!</h1>
+        <h1 className="font-display text-4xl font-bold mb-4">¡Pedido Enviado!</h1>
         <p className="text-kako-muted mb-2">
-          Gracias <span className="text-kako-white font-bold">{formData.name}</span>, tu pedido fue registrado.
+          Gracias <span className="text-kako-white font-bold">{formData.name}</span>.
         </p>
-        <p className="text-kako-muted mb-8">
-          Te contactamos por WhatsApp al <span className="text-kako-white">{formData.phone}</span> para coordinar el pago y la entrega.
+        <p className="text-kako-muted mb-4">
+          Se abrió WhatsApp con los detalles de tu pedido. Enviá el mensaje para confirmar.
+        </p>
+        <p className="text-xs text-kako-muted mb-8">
+          ⚠️ El pedido se confirma recién cuando nos contestemos por WhatsApp y coordinemos el pago.
         </p>
         <a href="/catalogo" className="btn-primary">Seguir comprando</a>
       </div>
@@ -240,8 +238,10 @@ export default function CheckoutPage() {
                   <p><span className="text-kako-muted">Envío a:</span> {formData.address}, {formData.city} ({formData.zip})</p>
                 </div>
                 <div className="bg-kako-black/50 border border-kako-border p-4 text-center text-sm text-kako-muted">
-                  <CreditCard size={32} className="mx-auto mb-2 text-kako-accent" />
-                  <p>El pago se coordina por WhatsApp o vía Mercado Pago</p>
+                  <CreditCard size={32} className="mx-auto mb-2 text-green-400" />
+                  <p className="text-kako-white font-bold mb-1">Pago por WhatsApp</p>
+                  <p>Al confirmar se abre WhatsApp con tu pedido. Coordinamos pago y entrega ahí.</p>
+                  <p className="text-xs mt-2 text-yellow-400">⚠️ No se descuenta stock hasta confirmar por chat</p>
                 </div>
                 <button
                   type="submit"

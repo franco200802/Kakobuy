@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-// Credenciales admin
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'Franco Marotta';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Plata900900';
-
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
@@ -12,22 +8,25 @@ export async function POST(request: NextRequest) {
     // Validar inputs
     if (!email || !password) {
       return NextResponse.json(
-        { error: 'Email y contraseña son requeridos' },
+        { error: 'Usuario y contraseña son requeridos' },
         { status: 400 }
       );
     }
 
-    // Verificar credenciales
-    if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
+    // Verificar credenciales (trim para evitar espacios)
+    const validUser = 'Franco Marotta';
+    const validPass = 'Plata900900';
+
+    if (email.trim() !== validUser || password.trim() !== validPass) {
       return NextResponse.json(
         { error: 'Credenciales inválidas' },
         { status: 401 }
       );
     }
 
-    // Crear session token simple (en producción usar JWT o Supabase Auth)
+    // Crear session token
     const sessionToken = Buffer.from(
-      JSON.stringify({ email, role: 'admin', exp: Date.now() + 8 * 60 * 60 * 1000 })
+      JSON.stringify({ email: validUser, role: 'admin', exp: Date.now() + 8 * 60 * 60 * 1000 })
     ).toString('base64');
 
     // Set cookie
@@ -36,7 +35,7 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 8 * 60 * 60, // 8 horas
+      maxAge: 8 * 60 * 60,
       path: '/',
     });
 

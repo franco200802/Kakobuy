@@ -10,6 +10,7 @@ export interface Product {
   stock: number;
   featured: boolean;
   slug: string;
+  weight?: number; // peso en gramos
 }
 
 export interface CartItem {

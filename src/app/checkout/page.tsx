@@ -63,7 +63,7 @@ export default function CheckoutPage() {
         `💰 *Total: ${formatPrice(getTotalPrice())}*\n\n` +
         `Quiero confirmar mi pedido 🙏`;
 
-      const waNumber = '5491112345678'; // Tu número de WhatsApp
+      const waNumber = '5491161242741'; // Tu número de WhatsApp
       const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
 
       clearCart();

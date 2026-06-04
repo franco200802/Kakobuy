@@ -26,43 +26,40 @@ export function Navbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled ? 'bg-kako-black/95 backdrop-blur-lg border-kako-border shadow-lg shadow-black/20' : 'bg-kako-black/80 backdrop-blur-md border-transparent'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${scrolled ? 'glass border-kako-border/50 shadow-2xl shadow-black/30' : 'bg-transparent border-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="font-display text-3xl font-bold tracking-wider hover:text-kako-accent transition-colors">
-          BA <span className="text-kako-accent">REPS</span>
+        <Link href="/" className="font-display text-2xl md:text-3xl font-bold tracking-wider hover:scale-105 transition-transform">
+          <span className="text-kako-white">BA</span> <span className="gradient-text">REPS</span>
         </Link>
 
         {/* Nav Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm uppercase tracking-widest transition-colors relative ${
+              className={`text-xs uppercase tracking-widest transition-all duration-300 px-4 py-2 rounded-full relative ${
                 pathname === link.href
-                  ? 'text-kako-accent'
-                  : 'text-kako-white hover:text-kako-accent'
+                  ? 'text-kako-accent bg-kako-accent/10'
+                  : 'text-kako-white/70 hover:text-kako-white hover:bg-kako-white/5'
               }`}
             >
               {link.label}
-              {pathname === link.href && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-kako-accent" />
-              )}
             </Link>
           ))}
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <button
             onClick={toggleCart}
-            className="relative p-2 hover:text-kako-accent transition-colors"
+            className="relative p-2.5 hover:bg-kako-white/5 rounded-full transition-all duration-300"
             aria-label="Abrir carrito"
           >
-            <ShoppingBag size={22} />
+            <ShoppingBag size={20} />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-kako-accent text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+              <span className="absolute -top-0.5 -right-0.5 bg-gradient-to-r from-kako-accent to-kako-accent-light text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold animate-glow shadow-lg shadow-kako-accent/30">
                 {totalItems}
               </span>
             )}

@@ -46,9 +46,14 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply bg-gradient-to-r from-kako-accent to-kako-accent-light text-white font-bold py-3 px-6 uppercase tracking-wider
-           transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,45,85,0.6)] hover:scale-[1.02]
+    @apply text-white font-bold py-3 px-6 uppercase tracking-wider
+           transition-all duration-300 hover:scale-[1.02]
            active:scale-95 relative overflow-hidden;
+    background: linear-gradient(to right, var(--accent), var(--accent-light));
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(255, 45, 85, 0.6);
   }
 
   .btn-primary::before {
@@ -65,16 +70,27 @@ body {
   }
 
   .btn-outline {
-    @apply border-2 border-kako-accent text-kako-accent font-bold py-3 px-6 uppercase tracking-wider
-           transition-all duration-300 hover:bg-kako-accent hover:text-white hover:shadow-[0_0_20px_rgba(255,45,85,0.4)]
-           active:scale-95;
+    @apply font-bold py-3 px-6 uppercase tracking-wider
+           transition-all duration-300 active:scale-95;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-outline:hover {
+    background-color: var(--accent);
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 45, 85, 0.4);
   }
 
   .card-product {
-    @apply bg-kako-card border border-kako-border rounded-lg overflow-hidden
-           transition-all duration-300 hover:border-kako-accent/60
-           hover:shadow-[0_8px_30px_rgba(255,45,85,0.15),0_0_0_1px_rgba(255,45,85,0.1)]
-           hover:-translate-y-2;
+    @apply rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-2;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .card-product:hover {
+    border-color: rgba(255, 45, 85, 0.6);
+    box-shadow: 0 8px 30px rgba(255, 45, 85, 0.15), 0 0 0 1px rgba(255, 45, 85, 0.1);
   }
 
   .text-glow {
@@ -103,7 +119,10 @@ body {
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-kako-accent via-kako-accent-light to-kako-accent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--accent), var(--accent-light), var(--accent));
   }
 
   .shimmer {

@@ -28,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <article className="card-product group block h-full flex flex-col">
+    <article className="card-product group h-full flex flex-col">
       <Link href={`/producto/${product.slug}`} className="block flex-1">
         {/* Image Container */}
         <div className="relative aspect-[3/4] bg-kako-dark overflow-hidden">

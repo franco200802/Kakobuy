@@ -2,17 +2,7 @@
 
 import { create } from 'zustand';
 import { Product, CartItem } from '@/types';
-
-// Lazy import to avoid circular dependency with Toast
-let showToastFn: ((msg: string) => void) | null = null;
-function getShowToast() {
-  if (!showToastFn) {
-    import('@/components/ui/Toast').then((mod) => {
-      showToastFn = mod.showToast;
-    });
-  }
-  return showToastFn;
-}
+import { showToast } from '@/components/ui/Toast';
 
 interface CartState {
   items: CartItem[];
@@ -53,8 +43,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       };
     });
     // Fire toast notification
-    const toast = getShowToast();
-    if (toast) toast(`${product.name} agregado al carrito`);
+    showToast(`${product.name} agregado al carrito`);
   },
 
   removeItem: (productId, size) => {

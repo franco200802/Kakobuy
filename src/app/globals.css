@@ -72,7 +72,7 @@ body {
 
   .card-product {
     @apply bg-kako-card border border-kako-border rounded-lg overflow-hidden
-           transition-all duration-400 hover:border-kako-accent/60
+           transition-all duration-300 hover:border-kako-accent/60
            hover:shadow-[0_8px_30px_rgba(255,45,85,0.15),0_0_0_1px_rgba(255,45,85,0.1)]
            hover:-translate-y-2;
   }

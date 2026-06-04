@@ -19,7 +19,7 @@ export function HeroSection() {
       {/* Content */}
       <div className="relative z-20 text-center px-4">
         <div className="mb-6">
-          <span className="inline-block text-xs uppercase tracking-[0.4em] text-kako-accent border border-kako-accent/30 px-4 py-2 mb-6">
+          <span className="inline-block text-xs uppercase tracking-[0.4em] text-kako-accent border border-kako-accent/30 px-4 py-2 mb-6 animate-fade-in-up">
             Streetwear Importado — Buenos Aires
           </span>
         </div>
@@ -32,7 +32,7 @@ export function HeroSection() {
         <p className="text-base md:text-lg text-kako-muted max-w-md mx-auto mb-10">
           Las mejores prendas urbanas del mundo, directo a tu puerta. Sin intermediarios.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
           <a href="/catalogo" className="btn-primary text-lg px-8 py-4">
             Comprar Ahora
           </a>
@@ -40,10 +40,29 @@ export function HeroSection() {
             Próximos Drops
           </a>
         </div>
+
+        {/* Social proof */}
+        <div className="flex items-center justify-center gap-6 md:gap-10 text-center">
+          <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+            <p className="font-display text-2xl md:text-3xl font-bold text-kako-accent">100+</p>
+            <p className="text-[10px] md:text-xs text-kako-muted uppercase tracking-wider">Envíos realizados</p>
+          </div>
+          <div className="w-px h-8 bg-kako-border" />
+          <div className="animate-fade-in-up" style={{ animationDelay: '400ms' }}>
+            <p className="font-display text-2xl md:text-3xl font-bold text-kako-accent">4.9★</p>
+            <p className="text-[10px] md:text-xs text-kako-muted uppercase tracking-wider">Calificación</p>
+          </div>
+          <div className="w-px h-8 bg-kako-border" />
+          <div className="animate-fade-in-up" style={{ animationDelay: '600ms' }}>
+            <p className="font-display text-2xl md:text-3xl font-bold text-kako-accent">24hs</p>
+            <p className="text-[10px] md:text-xs text-kako-muted uppercase tracking-wider">Despacho rápido</p>
+          </div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+        <span className="text-[10px] uppercase tracking-widest text-kako-muted mb-2">Scroll</span>
         <div className="w-5 h-9 border-2 border-kako-muted/50 rounded-full flex justify-center pt-2">
           <div className="w-1 h-2 bg-kako-accent rounded-full animate-bounce" />
         </div>

@@ -112,33 +112,49 @@ export default function CheckoutPage() {
   const steps = [
     { id: 'info' as const, label: 'Datos', icon: User },
     { id: 'shipping' as const, label: 'Envío', icon: Truck },
-    { id: 'payment' as const, label: 'Pago', icon: CreditCard },
+    { id: 'payment' as const, label: 'Confirmar', icon: CreditCard },
   ];
 
+  const currentStepIndex = steps.findIndex((s) => s.id === step);
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      <h1 className="font-display text-4xl font-bold uppercase mb-8">Checkout</h1>
+    <div className="max-w-5xl mx-auto px-4 pt-28 pb-12">
+      <h1 className="font-display text-4xl font-bold uppercase mb-2">Checkout</h1>
+      <p className="text-kako-muted text-sm mb-8">Completá tus datos para finalizar el pedido</p>
 
       {/* Steps indicator */}
-      <div className="flex items-center gap-2 mb-10">
-        {steps.map((s, i) => (
-          <div key={s.id} className="flex items-center">
-            <button
-              onClick={() => setStep(s.id)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm uppercase tracking-wider transition-all ${
-                step === s.id
-                  ? 'text-kako-accent border-b-2 border-kako-accent'
-                  : 'text-kako-muted'
-              }`}
-            >
-              <s.icon size={16} />
-              {s.label}
-            </button>
-            {i < steps.length - 1 && (
-              <div className="w-8 h-px bg-kako-border mx-2" />
-            )}
-          </div>
-        ))}
+      <div className="flex items-center mb-10 overflow-x-auto pb-2">
+        {steps.map((s, i) => {
+          const isCompleted = i < currentStepIndex;
+          const isCurrent = i === currentStepIndex;
+          return (
+            <div key={s.id} className="flex items-center">
+              <button
+                onClick={() => {
+                  if (i <= currentStepIndex) setStep(s.id);
+                }}
+                disabled={i > currentStepIndex}
+                className={`flex items-center gap-2 px-4 py-2.5 text-sm uppercase tracking-wider transition-all rounded disabled:cursor-not-allowed ${
+                  isCurrent
+                    ? 'text-kako-accent bg-kako-accent/10 border border-kako-accent/30'
+                    : isCompleted
+                    ? 'text-green-400'
+                    : 'text-kako-muted'
+                }`}
+              >
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border ${
+                  isCurrent ? 'border-kako-accent text-kako-accent' : isCompleted ? 'border-green-400 bg-green-400 text-black' : 'border-kako-border text-kako-muted'
+                }`}>
+                  {isCompleted ? '✓' : i + 1}
+                </div>
+                <span className="hidden sm:inline">{s.label}</span>
+              </button>
+              {i < steps.length - 1 && (
+                <div className={`w-8 h-px mx-1 ${isCompleted ? 'bg-green-400' : 'bg-kako-border'}`} />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

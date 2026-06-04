@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { Product, CartItem } from '@/types';
+import { showToast } from '@/components/ui/Toast';
 
 interface CartState {
   items: CartItem[];
@@ -41,6 +42,7 @@ export const useCartStore = create<CartState>((set, get) => ({
         isOpen: true,
       };
     });
+    showToast(`${product.name} agregado al carrito`);
   },
 
   removeItem: (productId, size) => {

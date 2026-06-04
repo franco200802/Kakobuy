@@ -1,17 +1,32 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ShoppingBag, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCartStore } from '@/store/cart';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
   const totalItems = useCartStore((state) => state.getTotalItems());
   const toggleCart = useCartStore((state) => state.toggleCart);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const navLinks = [
+    { href: '/catalogo', label: 'Catálogo' },
+    { href: '/drops', label: 'Drops' },
+    { href: '/nosotros', label: 'Nosotros' },
+  ];
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-kako-black/90 backdrop-blur-md border-b border-kako-border">
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${scrolled ? 'bg-kako-black/95 backdrop-blur-lg border-kako-border shadow-lg shadow-black/20' : 'bg-kako-black/80 backdrop-blur-md border-transparent'}`}>
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="font-display text-3xl font-bold tracking-wider hover:text-kako-accent transition-colors">
@@ -20,15 +35,22 @@ export function Navbar() {
 
         {/* Nav Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/catalogo" className="text-sm uppercase tracking-widest hover:text-kako-accent transition-colors">
-            Catálogo
-          </Link>
-          <Link href="/drops" className="text-sm uppercase tracking-widest hover:text-kako-accent transition-colors">
-            Drops
-          </Link>
-          <Link href="/nosotros" className="text-sm uppercase tracking-widest hover:text-kako-accent transition-colors">
-            Nosotros
-          </Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-sm uppercase tracking-widest transition-colors relative ${
+                pathname === link.href
+                  ? 'text-kako-accent'
+                  : 'text-kako-white hover:text-kako-accent'
+              }`}
+            >
+              {link.label}
+              {pathname === link.href && (
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-kako-accent" />
+              )}
+            </Link>
+          ))}
         </div>
 
         {/* Actions */}
@@ -59,17 +81,22 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-kako-dark border-t border-kako-border animate-slide-up">
-          <div className="flex flex-col p-4 gap-4">
-            <Link href="/catalogo" className="text-sm uppercase tracking-widest py-2" onClick={() => setIsMenuOpen(false)}>
-              Catálogo
-            </Link>
-            <Link href="/drops" className="text-sm uppercase tracking-widest py-2" onClick={() => setIsMenuOpen(false)}>
-              Drops
-            </Link>
-            <Link href="/nosotros" className="text-sm uppercase tracking-widest py-2" onClick={() => setIsMenuOpen(false)}>
-              Nosotros
-            </Link>
+        <div className="md:hidden bg-kako-dark/95 backdrop-blur-lg border-t border-kako-border">
+          <div className="flex flex-col p-6 gap-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm uppercase tracking-widest py-3 px-4 transition-colors rounded ${
+                  pathname === link.href
+                    ? 'text-kako-accent bg-kako-accent/10'
+                    : 'text-kako-white hover:text-kako-accent hover:bg-kako-card'
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       )}
